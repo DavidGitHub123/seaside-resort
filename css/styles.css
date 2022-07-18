@@ -1,0 +1,706 @@
+/* Import font */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Ms+Madi&display=swap');
+
+/* Custom properties */
+:root {
+  --light-clr: #fff;
+  --dark-clr: #504f4f;
+  --accent-clr: #2473f2;
+  --accent-btn: #5eaba2;
+
+  --font-size-xsm: 1.2rem;
+  --font-size-sm: 1.6rem;
+  --font-size-md: 2.4rem;
+  --font-size-lg: 3.6rem;
+  --font-size-xlg: 4rem;
+  --font-size-xxlg: 8rem;
+
+  --font-family: "Poppins", sans-serif;
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+
+  --margin-sm: 1rem;
+  --margin-md: 2rem;
+  --margin-lg: 5rem;
+  --margin-xlg: 10rem;
+
+  --section-spacing: 4rem;
+
+  --gap-sm: 1.5rem;
+  --gap-md: 2rem;
+  --gap-lg: 4rem;
+}
+/* Base styles */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  /* 10px Therefore, 1.5 = 15px and 2 = 20px*/
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--dark-clr);
+  /* overflow-x: hidden; HIDES SCROLL BAR*/
+}
+
+/* When on-scroll animations are added we will get overflowing. 
+This moves the items out of the screen so they can be moved back in.
+Overflow-x: hidden eliminates scroll bars */
+
+a {
+  color: var(--dark-clr);
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+i {
+  font-size: var(--font-size-md);
+}
+
+/* Reusable */
+
+.container {
+  /* max-width: 116rem; */
+  /* 1160 px */
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.place-items-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sm-screen-hidden {
+  display: none !important;
+}
+
+.d-grid {
+  display: grid;
+}
+
+/* padding-block controls spacing top/bottom of the sections */
+.section {
+  padding-block: var(--section-spacing);
+}
+
+/* header */
+
+.header {
+  background-color: var(--light-clr);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+.nav {
+  height: 8rem;
+  /* margin-bottom: 4rem; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: inherit;
+}
+
+.logo {
+  height: 100%;
+}
+
+.menu-toggle-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: var(--accent-clr);
+  color: var(--light-clr);
+  cursor: pointer;
+  transition: color 0.25s;
+}
+
+.menu-close-icon {
+  display: none;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--margin-sm);
+}
+
+/* .list-item .list-link {
+  color: var(--dark-clr);
+} */
+
+/* Relative because the psuedo elements are set at absolute */
+.list-link {
+  position: relative;
+}
+
+/* Controls dot when list-item is selected */
+.list-link::after,
+.list-link.current::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -1rem;
+  transform: translateY(-50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: var(--accent-clr);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.list-link.current::after {
+  opacity: 1 !important;
+}
+
+.list-link:hover::after {
+  opacity: 1;
+}
+
+.nav-mobile {
+  background-color: var(--accent-btn);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem;
+  transform: translateY(-100%);
+  z-index: -1;
+  transition: transform 0.25s;
+}
+
+
+/* Nav JavaScript styles */
+/* When .nav has the class of active through JS, translateY 8rem */
+.nav.active .nav-mobile {
+  transform: translateY(8rem);
+}
+
+/* When .nav has class of active through JS, this hides the open icon and displays the X close icon with display block*/
+.nav.active .menu-open-icon {
+  display: none;
+}
+
+.nav.active .menu-close-icon {
+  display: block;
+}
+
+/* Through JS, adds dark background when toggle is clicked. Opacity from 0 to 1 with class of active*/
+.header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: -1;
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.5s;
+}
+
+/* Javascript -- adds class of active to change styles of the before psuedo element  */
+.header.active::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Add/remove header border bottom on scroll -- see js file */
+  .header.active-scroll {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Section Containers */
+
+.showcase {
+  margin-top: 8rem;
+}
+
+.showcase-headline {
+  background: url("../images/beach_1.jpg") center no-repeat;
+  background-size: cover;
+  padding-left: 10rem;
+}
+
+.showcase-container,
+.popular-destinations-container,
+.plan-trip-container {
+  gap: var(--gap-lg);
+}
+
+.image-group {
+  /* grid-template-columns: 2rem repeat(2, 1fr) 2rem repeat(2, 1fr) 2rem; */
+  /* grid-template-columns: 40rem 40rem 1fr; */
+    grid-template-columns: 1fr 1fr 1fr;
+    position: relative;
+}
+
+.image-left img{
+  height: 300px;
+  width: 100%;
+  /* grid-column: 1/4;
+  grid-row: 1/span 3; */
+  /* background: url("../images/showcase-image-1.jpg") center no-repeat;
+  background-size: cover; */
+  /* z-index: 5; */
+}
+
+.image-center img {
+  height: 300px;
+  width: 100%;
+  /* grid-column: 4/6;
+  grid-row: 1/span 4; */
+  /* background: url("../images/showcase-image-2.jpg") center no-repeat;
+  background-size: cover; */
+  /* z-index: 10; */
+}
+
+.image-right img {
+  height: 300px;
+  width: 100%;
+  /* grid-column: 5/-1;
+  grid-row: 1/span 4; */
+  /* background: url("../images/showcase-image-3.jpg") center no-repeat;
+  background-size: cover; */
+}
+
+.image-box {
+  min-height: 25rem;
+  box-shadow: 2px 2px 1rem rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+/* overflow: hidden keeps the images inside box upon hover and transmform */
+
+.showcase .image-box h1 {
+  position: absolute;
+  color: #fff;
+  font-size: 8rem;
+  padding: 6rem 0 0 4rem;
+  font-family: "Ms Madi";
+  z-index: 10;
+}
+
+@media screen and (max-width: 1100px) {
+  .showcase .image-box h1 {
+    font-size: 6rem;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .showcase .image-box h1 {
+    font-size: 5rem;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .showcase .image-box h1 {
+    font-size: 4rem;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  .showcase .image-box h1 {
+    font-size: 3rem;
+  }
+}
+
+@media screen and (max-width: 525px) {
+  .showcase .image-box h1 {
+    font-size: 2rem;
+  }
+}
+
+
+@media screen and (max-width: 420px) {
+  .showcase .image-box h1 {
+    font-size: 1.5rem;
+  }
+}
+
+.image-box img {
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.image-box:hover img {
+  transform: scale(1.1);
+}
+
+.tag-line {
+  display: inline-block;
+  font-size: var(--font-size-xlg);
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--light-clr);
+  margin-top: var(--margin-xlg);
+}
+
+.title {
+  font-size: var(--font-size-lg);
+}
+
+.main-title {
+  font-size: var(--font-size-lg);
+  color: var(--dark-clr);
+}
+
+.accent-text {
+  color: var(--accent-clr);
+  font-size: var(--font-size-xxlg);
+}
+
+.description {
+  margin-bottom: var(--margin-lg);
+  color: var(--light-clr);
+  font-weight: var(--font-weight-bold);
+}
+
+.btn {
+  display: inline-block;
+  background-color: var(--accent-btn);
+  color: var(--light-clr);
+  padding: 1rem 2.5rem;
+  transition: background-color 0.25s;
+  border-radius: 5px;
+  margin-bottom: var(--margin-lg);
+}
+
+.btn-book-now {
+  margin-top: 50px;
+}
+
+.btn:hover {
+  background-color: var(--accent-clr);
+}
+
+/* Popular-destinations */
+
+.popular-destinations-headline {
+  background: url("../images/beach_2.jpg") bottom no-repeat;
+  background-size: cover;
+  padding-left: 10rem;
+  margin-bottom: 1rem;
+}
+
+.secondary-grid {
+  gap: var(--gap-lg);
+}
+
+.beach-data-wrapper {
+  position: relative;
+}
+
+.beach-data-wrapper.image-box img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.beach-data {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.beach-data-inner {
+  width: 100%;
+  background-color: var(--light-clr);
+  padding: 1rem;
+}
+
+.beach-name {
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--gap-sm);
+}
+
+.beach-location,
+.beach-location .accent-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--font-size-xsm);
+}
+
+.btn.place-items-center {
+  display: inline-flex;
+}  
+
+/* Plan Trip Section */
+
+.plan-trip-headline {
+  background: url("../images/beach_3.jpg") center no-repeat;
+  background-size: cover;
+  padding-left: 10rem;
+  margin-bottom: 10px;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 950px) {
+  .showcase-headline,
+  .popular-destinations-headline,
+  .plan-trip-headline {
+    padding-left: 3rem;
+  } 
+}
+
+/* Newsletter Section */
+
+.newsletter {
+  background: url("../images/newsletter-image.jpg") center no-repeat;
+  background-size: cover;
+  position: relative;
+  z-index: 5;
+}
+
+.newsletter::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: -1;
+}
+
+.newsletter-container {
+  display: flex;
+  justify-content: center;
+}
+
+.newsletter-container-inner {
+  max-width: 60rem;
+  text-align: center;
+  color: var(--light-clr);
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--gap-md);
+}
+
+.btn-light {
+  background-color: var(--light-clr);
+  color: var(--dark-clr);
+}
+
+.btn-light:hover {
+  color: var(--light-clr);
+} 
+
+/* Footer */
+
+.footer {
+  background-color: var(--light-clr);
+  padding: 4rem 2rem;
+}
+
+/* Simple solution so no media queries are required */
+.footer-container-inner {
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: var(--gap-md);
+}
+
+.contact-information {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact-information .social {
+  flex-direction: row;
+}
+
+.contact-information .list{
+  line-height: 1.5rem;
+}
+
+.footer .list-link {
+  transition: color 0.25s;
+}
+
+/* Hides the dot icon on hover as seen in the header nav */
+.footer .list-link::after {
+  display: none;
+}
+
+.footer .list-link:hover {
+  color: var(--accent-clr);
+}
+
+.footer-title {
+  font-size: var(--font-size-sm);
+  margin-bottom: 5px;
+}
+
+.footer .list-item {
+  font-size: var(--font-size-sm);
+  line-height: 1.5rem;
+}
+
+.footer-separator {
+  margin-block: 2.5rem;
+  opacity: 0.2;
+}
+
+.copyright {
+  opacity: 0.8;
+} 
+
+/* Media queries */
+
+@media screen and (min-width: 500px) {
+  .btn-group {
+    flex-direction: row;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .popular-destinations-container {
+    grid-template-columns: repeat(2, 1fr);
+    /* align-items: center; */
+  }
+
+  .image-box {
+    min-height: 35rem;
+  }
+
+  .beach-data-inner {
+    padding: 1.5rem;
+  }
+
+  .secondary-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-column: 1/-1;
+  }
+
+  .image-box-right {
+    grid-column: span 2;
+  }
+
+  .image-box-right .beach-data-inner {
+    width: 50%;
+  }
+}
+
+
+/* initial resets the nav to show all content and undo classes from .nav-mobile up top */
+@media screen and (min-width: 1000px) {
+  .nav-mobile {
+    background-color: transparent;
+    position: initial;
+    width: initial;
+    padding: initial;
+    z-index: initial;
+    transform: initial;
+    transition: initial;
+  }
+
+  .nav .list {
+    flex-direction: row;
+  }
+
+  .nav .list-item {
+    padding-right: 30px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+  }
+
+  /* translateX(-50%) brings the menu to the middle */
+  .list-link::after,
+  .list-link.current::after {
+    top: initial;
+    right: initial;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -1rem;
+    width: 10rem;
+    border-radius: initial;
+  }
+
+  .sm-screen-hidden {
+    display: block !important;
+  }
+
+  .lg-screen-hidden {
+    display: none;
+  }
+
+  /* This resets the nav so it doesn't drop down into black screen when the .active class 
+  is added through JS */
+  .nav.active .nav-mobile {
+    transform: initial;
+  }
+
+  /* Refers to .nav.active .nav-mobile */
+  .header::before {
+    display: none;
+  }
+
+  .showcase-container,
+  .popular-destinations-container,
+  .plan-trip-container {
+    gap: 1rem;
+  }
+
+  .showcase .image-box {
+    min-height: 35rem;
+  }
+
+  .secondary-grid {
+    grid-template-columns: 2fr repeat(6, 1fr) 2fr;
+  }
+
+  .image-box-left {
+    grid-column: 1/3;
+  }
+
+  .image-box-center {
+    grid-column: 3/7;
+  }
+
+  .image-box-right {
+    grid-column: 7/-1;
+  }
+
+  .width-50 {
+    width: 50%;
+  }
+
+  .image-box-right .beach-data-inner {
+    width: 100%;
+  }
+}
